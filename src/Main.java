@@ -26,11 +26,13 @@ public class Main {
         while (true) {
             Scanner OutputVarsScanner = new Scanner(System.in);
             if (OutputVarsScanner.hasNextInt()) {
-                NumberOfOutputVars = OutputVarsScanner.nextInt();
-                break;
-            } else {
-                System.out.println("Wrong number of output variables was insert \n" + "Try again");
+                TempValue = OutputVarsScanner.nextInt();
+                if (TempValue > 0) {
+                    NumberOfOutputVars = TempValue;
+                    break;
+                }
             }
+            System.out.println("Wrong number of output variables was insert \n" + "Try again");
         }
 
         TruthTable TT = new TruthTable(NumberOfInputVars, NumberOfOutputVars);

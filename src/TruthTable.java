@@ -15,7 +15,7 @@ public class TruthTable {
         return TT;
     }
 
-    //TODO дописать правильный вывод таблицы
+
     public void DisplayTT() {
         System.out.println("Truth table: ");
         for (int i = 0; i < (int) Math.pow(2, NumberOfInputVars); i++) {
@@ -47,6 +47,7 @@ public class TruthTable {
                     } else {
                         System.out.println("Wrong Y value was insert \n" + "Try again");
                     }
+                    FuncRes.close();
                 }
             }
         }
@@ -68,7 +69,7 @@ public class TruthTable {
                 ConvertedTT[j][i] = Integer.toString(TruthTable[j][i]);
             }
         }
-        
+
         return ConvertedTT;
     }
 }
