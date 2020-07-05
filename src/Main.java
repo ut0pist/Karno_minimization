@@ -36,7 +36,7 @@ public class Main {
         }
 
         TruthTable TT = new TruthTable(NumberOfInputVars, NumberOfOutputVars);
-        //System.out.println(Arrays.deepToString(TT.getTT()));
         TT.DisplayTT();
+        TT.DisplayCarnoCard();
     }
 }
