@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -37,6 +36,6 @@ public class Main {
 
         TruthTable TT = new TruthTable(NumberOfInputVars, NumberOfOutputVars);
         TT.DisplayTT();
-        TT.DisplayCarnoCard();
+        TT.DisplayCarnoMaps();
     }
 }
