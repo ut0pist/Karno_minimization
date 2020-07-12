@@ -5,7 +5,6 @@ public class TruthTable {
     private int NumberOfInputVars;
     private int NumberOfOutputVars;
     private String[][] TT;
-    //private String[][] CarnoMap;
     private String[][][] AllCarnoMaps;
 
     public TruthTable(int NumberOfInputVars, int NumberOfOutputVars) {
@@ -34,15 +33,6 @@ public class TruthTable {
         }
     }
 
-    /*public void DisplayCarnoMap() {
-        System.out.println("Carno Map: ");
-        for (int i = 0; i < CarnoMap.length; i++) {
-            for (int j = 0; j < CarnoMap[0].length; j++) {
-                System.out.print(" " + this.CarnoMap[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }*/
 
     public void DisplayCarnoMaps(){
         for(int i = 0; i < AllCarnoMaps.length; i++){
@@ -176,29 +166,6 @@ public class TruthTable {
         String GrayCode = Integer.toBinaryString(CurrentValue ^ (CurrentValue >> 1));
         return GrayCode;
     }
-
-    /*private String[] FindCoordinatesOfNeededOutputValues(int NeededValue, int FuncIndex){
-        int counter = 0; //количество строк в таблице координат нужных значений
-        LinkedList<Integer> RowIndex = new LinkedList<>(); //номера строк, в которых были найдены нужные значения для последующей минимизации (0 или 1)
-
-        //TODO неправильно указывается номер столбца, с которого должна быть считана выходящая функция
-        for(int i = 0; i < TT.length; i++){
-            String temp = Integer.toString(NeededValue);
-            if(TT[i][TT[0].length - (FuncIndex + 1)].equals(Integer.toString(NeededValue))){
-                RowIndex.add(counter);
-            }
-            counter++;
-        }
-
-        //TODO Подумать, можно ли не переносить найденные координаты в другой массив.
-        String[] FoundCoordinates = new String[RowIndex.size()];
-        for(int i = 0; i < FoundCoordinates.length; i++){
-                FoundCoordinates[i] = TT[RowIndex.getFirst()][0];
-                RowIndex.removeFirst();
-        }
-
-        return FoundCoordinates;
-    }*/
 
     private String[][] InsertOutputValuesIntoCarnoMap(int FuncIndex){
         int VarsInColumns = NumberOfInputVars - (NumberOfInputVars / 2);
