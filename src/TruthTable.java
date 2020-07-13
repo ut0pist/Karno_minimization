@@ -5,21 +5,49 @@ public class TruthTable {
     private int NumberOfInputVars;
     private int NumberOfOutputVars;
     private String[][] TT;
-    private String[][][] AllCarnoMaps;
 
-    public TruthTable(int NumberOfInputVars, int NumberOfOutputVars) {
-        this.NumberOfInputVars = NumberOfInputVars;
-        this.NumberOfOutputVars = NumberOfOutputVars;
-        TT = ConvertTTtoChar(CreateTT(this.NumberOfInputVars, this.NumberOfOutputVars));
-        CreateCarnoMap();
+    public TruthTable() {
+        int TempValue = 0;
+
+        System.out.println("Enter a number of input variables from 1 to 5: ");
+        while (true) {
+            Scanner InputVarsScanner = new Scanner(System.in);
+            if (InputVarsScanner.hasNextInt()) {
+                TempValue = InputVarsScanner.nextInt();
+                if (TempValue >= 1 && TempValue <= 5) {
+                    this.NumberOfInputVars = TempValue;
+                    break;
+                }
+            }
+            System.out.println("Wrong number of input variables was insert \n" + "Try again");
+        }
+
+        System.out.println("Enter a number of output variables");
+        while (true) {
+            Scanner OutputVarsScanner = new Scanner(System.in);
+            if (OutputVarsScanner.hasNextInt()) {
+                TempValue = OutputVarsScanner.nextInt();
+                if (TempValue > 0) {
+                    this.NumberOfOutputVars = TempValue;
+                    break;
+                }
+            }
+            System.out.println("Wrong number of output variables was insert \n" + "Try again");
+        }
+
+        TT = ConvertTTtoString(CreateTT(this.NumberOfInputVars, this.NumberOfOutputVars));
     }
 
     public String[][] getTT() {
         return TT;
     }
 
-    public String[][][] getCarnoMap() {
-        return AllCarnoMaps;
+    public int getNumberOfInputVars() {
+        return NumberOfInputVars;
+    }
+
+    public int getNumberOfOutputVars() {
+        return NumberOfOutputVars;
     }
 
 
@@ -33,18 +61,6 @@ public class TruthTable {
         }
     }
 
-
-    public void DisplayCarnoMaps(){
-        for(int i = 0; i < AllCarnoMaps.length; i++){
-            System.out.println("Carno Map for func " + i);
-            for(int j = 0; j < AllCarnoMaps[0].length; j++){
-                for(int k = 0; k < AllCarnoMaps[0][0].length; k++){
-                    System.out.print(" " + AllCarnoMaps[i][j][k] + " ");
-                }
-                System.out.println();
-            }
-        }
-    }
 
     private int[][] CreateTT(int NumberOfInputVars, int NumberOfOutputVars) {
         int NumberOfRows = (int) Math.pow(2, NumberOfInputVars);
@@ -74,7 +90,7 @@ public class TruthTable {
         return tt;
     }
 
-    private String[][] ConvertTTtoChar(int[][] TruthTable) {
+    private String[][] ConvertTTtoString(int[][] TruthTable) {
         String[][] ConvertedTT = new String[TruthTable.length][TruthTable[0].length];
 
         for (int i = 0; i < (int) Math.pow(2, NumberOfInputVars); i++) {
@@ -91,97 +107,5 @@ public class TruthTable {
         }
 
         return ConvertedTT;
-    }
-
-    private void CreateCarnoMap() {
-        int NumberOfVarsInRows = NumberOfInputVars / 2;
-        int NumberOfVarsInColumns = NumberOfInputVars - NumberOfVarsInRows;
-        int RowNumber = (int) Math.pow(2, NumberOfVarsInRows) + 2;
-        int ColumnNumber = (int) Math.pow(2, NumberOfVarsInColumns) + 2;
-        //TODO Карт Карно может быть много. Нужно добавить структуру, которая будет хранить множество карт Карно.
-        /** Наполняем карты Карно значениями выходных функций **/
-        AllCarnoMaps = new String[NumberOfOutputVars][RowNumber][ColumnNumber];
-        for(int j = 0; j < AllCarnoMaps.length; j++){
-            for(int i = NumberOfOutputVars - 1; i >= 0; i--){
-                AllCarnoMaps[j] = InsertOutputValuesIntoCarnoMap(i);;
-            }
-        }
-    }
-
-    private String[][] CarnoMapTemplate(){
-        int counter = 0;
-        int VarIndex = NumberOfInputVars - 1;
-        int NumberOfVarsInRows = NumberOfInputVars / 2;
-        int NumberOfVarsInColumns = NumberOfInputVars - NumberOfVarsInRows;
-        String[][] CarnoMap = new String[(int) Math.pow(2, NumberOfVarsInRows) + 2][(int) Math.pow(2, NumberOfVarsInColumns) + 2];
-        CarnoMap[0][0] = "";
-        CarnoMap[0][1] = "";
-        CarnoMap[1][0] = "";
-
-        for(int i = 1; i < CarnoMap.length; i++){
-            for(int j = 1; j < CarnoMap[0].length; j++){
-                CarnoMap[i][j] = "";
-            }
-        }
-
-        /** Вводим в карту Карно иксы, расположенные в столбце **/
-        for (int i = 0; i < NumberOfVarsInColumns; i++) {
-            CarnoMap[0][1] += "x" + VarIndex + " ";
-            VarIndex--;
-        }
-
-        /** Вводим в карту Карно иксы, расположенные в строке **/
-        for (int i = 0; i < NumberOfVarsInRows; i++) {
-            CarnoMap[1][0] += "x" + VarIndex + " ";
-            VarIndex--;
-        }
-
-        /** Вводим в карту Карно коды Грея для иксов, расположенных в столбцах **/
-        for (int i = 2; i < CarnoMap[0].length; i++) {
-            CarnoMap[0][i] = GrayCodes(counter);
-            CarnoMap[1][i] = "";
-            counter++;
-
-            while(CarnoMap[0][i].length() < NumberOfVarsInColumns){
-                CarnoMap[0][i] = "0" + CarnoMap[0][i];
-            }
-        }
-
-
-        /** Вводим в карту Карно коды Грея для иксов, расположенных в строках**/
-        counter = 0;
-        for (int i = 2; i < CarnoMap.length; i++) {
-            CarnoMap[i][0] = GrayCodes(counter);
-            CarnoMap[i][1] = "";
-            counter++;
-
-            while(CarnoMap[i][0].length() < NumberOfVarsInRows){
-                CarnoMap[i][0] = "0" + CarnoMap[i][0];
-            }
-        }
-        return CarnoMap;
-    }
-
-    private String GrayCodes(int CurrentValue) {
-        String GrayCode = Integer.toBinaryString(CurrentValue ^ (CurrentValue >> 1));
-        return GrayCode;
-    }
-
-    private String[][] InsertOutputValuesIntoCarnoMap(int FuncIndex){
-        int VarsInColumns = NumberOfInputVars - (NumberOfInputVars / 2);
-        int VarsInRows = NumberOfInputVars / 2;
-        String[][] CurrentCarnoMap = CarnoMapTemplate();
-        LinkedList<Integer> ColumnCoordinate = new LinkedList<>();
-        LinkedList<Integer> RowCoordinate = new LinkedList<>();
-
-        for(int i = 0; i < TT.length; i++){
-            for(int j = 2; j < CurrentCarnoMap.length; j++){
-                for(int k = 2; k < CurrentCarnoMap[0].length; k++){
-                    if(TT[i][0].substring(0, VarsInColumns).equals(CurrentCarnoMap[0][k]) && TT[i][0].substring(VarsInColumns).equals(CurrentCarnoMap[j][0]))
-                        CurrentCarnoMap[j][k] = TT[i][TT[0].length - (FuncIndex + 1)];
-                }
-            }
-        }
-        return CurrentCarnoMap;
     }
 }
